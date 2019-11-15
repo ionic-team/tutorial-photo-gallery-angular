@@ -1,0 +1,8 @@
+{
+  "appId": "io.ionic.pg.ng.cap",
+  "appName": "Photo Gallery Ng Cap",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}
