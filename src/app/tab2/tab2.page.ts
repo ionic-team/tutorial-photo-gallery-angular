@@ -12,7 +12,7 @@ export class Tab2Page {
   constructor(public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
 
   ngOnInit() {
-    this.photoService.loadSaved();
+    this.photoService.loadSavedWeb();
   }
 
   async showActionSheet(photo, position) {
@@ -23,7 +23,7 @@ export class Tab2Page {
         role: 'destructive',
         icon: 'trash',
         handler: () => {
-          this.photoService.deletePicture(photo, position);
+          this.photoService.deletePhoto(photo, position);
         }
       }, {
         text: 'Cancel',

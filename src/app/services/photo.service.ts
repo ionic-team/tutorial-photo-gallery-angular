@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Plugins, CameraResultType, Capacitor, FilesystemDirectory, CameraPhoto, CameraSource } from '@capacitor/core';
+import { Plugins, Capacitor, FilesystemDirectory, CameraPhoto, CameraSource } from '@capacitor/core';
+import { Photo, IPhotoService } from './IPhotoService';
+import { Platform } from '@ionic/angular';
+import { WebPhotoService } from './photo.web.service';
 
 const { Camera, Filesystem, Storage } = Plugins;
 
@@ -9,13 +12,40 @@ const { Camera, Filesystem, Storage } = Plugins;
 export class PhotoService {
   public photos: Photo[] = [];
   private PHOTO_STORAGE: string = "photos";
+  private photoService: IPhotoService;
 
-  constructor() { }
+  constructor(platform: Platform) {
+    // if (platform.is('pwa')) { 
+    //   this.photoService = new WebPhotoService();
+    // }
+    // else {
+    //   this.photoService = new MobilePhotoService();
+    // }
+    
+    // TODO: can this be init'd globally via app?  app.component.ts
+    this.photoService = new WebPhotoService();
+   }
 
   async loadSaved() {
     // Retrieve cached photo array data
     const photos = await Storage.get({ key: this.PHOTO_STORAGE });
     this.photos = JSON.parse(photos.value) || [];
+  }
+
+  async loadSavedWeb() {
+    // Retrieve cached photo array data
+    const photos = await Storage.get({ key: this.PHOTO_STORAGE });
+    this.photos = JSON.parse(photos.value) || [];
+    console.log(this.photos);
+
+    for (let pho of this.photos) {
+      const readFile = await Filesystem.readFile({
+          path: pho.filepath,
+          directory: FilesystemDirectory.Data
+      });
+      
+      pho.base64 = `data:image/jpeg;base64,${readFile.data}`;
+    }
   }
 
   /* Use the device camera to take a photo:
@@ -30,74 +60,63 @@ export class PhotoService {
   public async takePhoto() {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Base64, // file-based data; provides best performance
+      resultType: this.photoService.getCameraConfig(),
       source: CameraSource.Camera, // automatically take a new photo with the camera
       quality: 100 // highest quality (0 to 100)
     });
-    console.log(capturedPhoto);
-    const savedImageFile = await this.savePicture(capturedPhoto);
+    const savedImageFile = await this.savePhoto(capturedPhoto);
 
     // Add new photo to Photos array
-    this.photos.unshift({
-      filepath: savedImageFile,
-      //  http://localhost:8100/DATA/1575336859585.jpeg 404
-      webviewPath: Capacitor.convertFileSrc(savedImageFile)
-    });
+    this.photos.unshift(savedImageFile);
 
-    // // Cache all photo data for future retrieval
-    // Storage.set({
-    //   key: this.PHOTO_STORAGE,
-    //   value: JSON.stringify(this.photos)
-    // });
+    // Cache all photo data for future retrieval
+    Storage.set({
+      key: this.PHOTO_STORAGE,
+      value: JSON.stringify(this.photos)
+    });
   }
 
   // Save picture to file on device
-  private async savePicture(cameraPhoto: CameraPhoto) {
+  private async savePhoto(cameraPhoto: CameraPhoto) {
 
-    const readFile = await this.handleWeb(cameraPhoto);
+    return await this.photoService.savePhoto(cameraPhoto);
 
-    // Read the file into its base64 version
-    // const readFile = await Filesystem.readFile({
-    //   path: cameraPhoto.path
+    // const readFile = await this.handleWeb(cameraPhoto);
+
+    // // handleMobile( )
+    // // Read the file into its base64 version
+    // // const readFile = await Filesystem.readFile({
+    // //   path: cameraPhoto.path
+    // // });
+
+    // // Write the file to the data directory (instead of temp storage)
+    // const fileName = new Date().getTime() + '.jpeg';
+    // await Filesystem.writeFile({
+    //   path: fileName,
+    //   //data: readFile.data,
+    //   data: readFile,
+    //   directory: FilesystemDirectory.Data
     // });
 
-    // Write the file to the data directory (instead of temp storage)
-    const fileName = new Date().getTime() + '.jpeg';
-    await Filesystem.writeFile({
-      path: fileName,
-      //data: readFile.data,
-      data: readFile,
-      directory: FilesystemDirectory.Data
-    });
+    // // Get the new, complete filepath
+    // const fileUri = await Filesystem.getUri({
+    //   directory: FilesystemDirectory.Data,
+    //   path: fileName
+    // });
 
-    // Get the new, complete filepath
-    const fileUri = await Filesystem.getUri({
-      directory: FilesystemDirectory.Data,
-      path: fileName
-    });
-    // WEB uri: "/DATA/1575336434117.jpeg"
-    console.log(fileUri); 
-
-    return fileUri.uri;
+    // return {
+    //   filepath: fileName, //fileUri.uri mobile,
+    //   webviewPath: Capacitor.convertFileSrc(fileUri.uri),
+    //   base64: readFile
+    // };
   }
 
   private async handleWeb(cameraPhoto) : Promise<string> {
-    return cameraPhoto.base64String;
-    // const file = await fetch(cameraPhoto.webPath);
-    // const readFile = await file.blob();
-
-    // return new Promise((resolve) => {
-    //   const reader = new FileReader();
-    //       reader.onloadend = () => {
-    //         console.log("web: " + reader.result.slice(0, 50));
-    //         resolve(reader.result as string);
-    //       };
-    //   reader.readAsDataURL(readFile);
-    // });
+    return cameraPhoto.dataUrl;
   }
 
   // Delete picture by removing it from reference data and the filesystem
-  public async deletePicture(photo: Photo, position: number) {
+  public async deletePhoto(photo: Photo, position: number) {
     // Remove this photo from the Photos reference data array
     this.photos.splice(position, 1);
 
@@ -114,9 +133,4 @@ export class PhotoService {
       directory: FilesystemDirectory.Data
     });
   }
-}
-
-class Photo {
-  filepath: string;
-  webviewPath: string;
 }
