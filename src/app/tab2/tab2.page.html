@@ -10,13 +10,13 @@
   <ion-grid>
     <ion-row>
     <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
-      <ion-img src="{{ photo.webviewPath }}" (click)="showActionSheet(photo, position)"></ion-img>
+      <ion-img src="{{ photo.base64 ? photo.base64 : photo.webviewPath }}" (click)="showActionSheet(photo, position)"></ion-img>
     </ion-col>
     </ion-row>
   </ion-grid>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button (click)="photoService.takePhoto()">
+    <ion-fab-button (click)="photoService.addNewToGallery()">
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>
