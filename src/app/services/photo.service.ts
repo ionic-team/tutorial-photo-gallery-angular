@@ -21,7 +21,8 @@ export class PhotoService {
     const photos = await Storage.get({ key: this.PHOTO_STORAGE });
     this.photos = JSON.parse(photos.value) || [];
 
-    if (this.platform.is('pwa')) {
+    // If running on the web...
+    if (!this.platform.is('hybrid')) {
       // Display the photo by reading into base64 format
       for (let photo of this.photos) {
         // Read each saved photo's data from the Filesystem
@@ -33,6 +34,9 @@ export class PhotoService {
         // Web platform only: Save the photo into the base64 field
         photo.base64 = `data:image/jpeg;base64,${readFile.data}`;
       }
+    }
+    else {
+      console.log(this.platform.platforms());
     }
   }
 
