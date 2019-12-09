@@ -19,7 +19,6 @@ export class ParentPhotoService {
     // Choose Photo Service implementation based on platform app is running on.
     // "cordova" will detect Cordova or Capacitor
     if (platform.is('cordova')) {
-      console.log("FOUND CAPACITOR");
       this.platformPhotoService = new MobilePhotoService();
     }
     else {
