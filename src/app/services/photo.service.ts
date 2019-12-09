@@ -35,9 +35,6 @@ export class PhotoService {
         photo.base64 = `data:image/jpeg;base64,${readFile.data}`;
       }
     }
-    else {
-      console.log(this.platform.platforms());
-    }
   }
 
   /* Use the device camera to take a photo:
