@@ -1,14 +1,12 @@
 import { CameraResultType, CameraPhoto } from '@capacitor/core';
 
-export interface IPhotoService {
+export interface PhotoService {
 
-  loadSaved(): Promise<void>;
+  loadSaved(storageKey): Promise<Photo[]>;
 
   getCameraConfig(): CameraResultType;
 
   savePhoto(cameraPhoto: CameraPhoto): Promise<Photo>;
-
-  deletePhoto(): Promise<void>;
 }
 
 export class Photo {

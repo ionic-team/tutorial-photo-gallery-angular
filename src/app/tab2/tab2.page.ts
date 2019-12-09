@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { PhotoService } from '../services/photo.service';
+import { ParentPhotoService } from '../services/photo.parent.service';
 
 @Component({
   selector: 'app-tab2',
@@ -9,10 +9,10 @@ import { PhotoService } from '../services/photo.service';
 })
 export class Tab2Page {
 
-  constructor(public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
+  constructor(public photoService: ParentPhotoService, public actionSheetController: ActionSheetController) {}
 
   ngOnInit() {
-    this.photoService.loadSavedWeb();
+    this.photoService.loadSaved();
   }
 
   async showActionSheet(photo, position) {

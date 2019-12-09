@@ -1,17 +1,29 @@
-import { Injectable } from '@angular/core';
-import { IPhotoService, Photo } from './IPhotoService';
-import { CameraResultType, CameraPhoto, Filesystem, FilesystemDirectory, Capacitor } from '@capacitor/core';
-import { BehaviorSubject } from 'rxjs';
+import { PhotoService, Photo } from './PhotoService';
+import { Plugins, CameraResultType, CameraPhoto, FilesystemDirectory, Capacitor } from '@capacitor/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class WebPhotoService implements IPhotoService {
+const { Filesystem, Storage } = Plugins;
+
+export class WebPhotoService implements PhotoService {
 
   constructor() { }
 
-  loadSaved(): Promise<void> {
-    throw new Error("Method not implemented.");
+  async loadSaved(storageKey): Promise<Photo[]> {
+    // Retrieve cached photo array data
+    const photos = await Storage.get({ key: storageKey });
+    let photoArray = JSON.parse(photos.value) || [];
+
+    // Read each saved photo's data from the Filesystem
+    for (let photo of photoArray) {
+      const readFile = await Filesystem.readFile({
+          path: photo.filepath,
+          directory: FilesystemDirectory.Data
+      });
+      
+      // Web platform only: Save the photo into the base64 field
+      photo.base64 = `data:image/jpeg;base64,${readFile.data}`;
+    }
+
+    return photoArray;
   }
 
   getCameraConfig(): CameraResultType {
@@ -21,7 +33,7 @@ export class WebPhotoService implements IPhotoService {
   async savePhoto(cameraPhoto: CameraPhoto): Promise<Photo> {
     const base64Data = cameraPhoto.dataUrl;
 
-    // Write the file to the data directory (instead of temp storage)
+    // Write the file to the data directory
     const fileName = new Date().getTime() + '.jpeg';
     await Filesystem.writeFile({
       path: fileName,
@@ -31,13 +43,9 @@ export class WebPhotoService implements IPhotoService {
 
     return {
       filepath: fileName,
-      // Unnecessary since we're using base64 data
-      webviewPath: "",
-      base64: base64Data
+      base64: base64Data,
+      // Unused - Display photos using base64 data instead.
+      webviewPath: ""
     };
-  }
-
-  deletePhoto(): Promise<void> {
-    throw new Error("Method not implemented.");
   }
 }

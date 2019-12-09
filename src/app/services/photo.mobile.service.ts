@@ -1,26 +1,49 @@
-import { Injectable } from '@angular/core';
-import { IPhotoService } from './IPhotoService';
+import { PhotoService, Photo } from './PhotoService';
+import { Plugins, CameraResultType, CameraPhoto, FilesystemDirectory, Capacitor } from '@capacitor/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class MobilePhotoService implements IPhotoService {
+const { Filesystem, Storage } = Plugins;
+
+export class MobilePhotoService implements PhotoService {
   
   constructor() { }
 
-  loadSaved(): Promise<void> {
-    throw new Error("Method not implemented.");
+  async loadSaved(storageKey): Promise<Photo[]> {
+    // Retrieve cached photo array data
+    const photos = await Storage.get({ key: storageKey });
+    let photoArray = JSON.parse(photos.value) || [];
+    
+    return photoArray;
   }
 
-  getCameraConfig(): import("@capacitor/core").CameraResultType {
-    throw new Error("Method not implemented.");
+  getCameraConfig(): CameraResultType {
+    return CameraResultType.Uri;
   }
   
-  savePhoto(cameraPhoto: import("@capacitor/core").CameraPhoto): Promise<import("./IPhotoService").Photo> {
-    throw new Error("Method not implemented.");
-  }
+  async savePhoto(cameraPhoto: CameraPhoto): Promise<Photo> {
+    // Read the file into its base64 version
+    const base64Data = await Filesystem.readFile({
+      path: cameraPhoto.path
+    });
 
-  deletePhoto(): Promise<void> {
-    throw new Error("Method not implemented.");
+    // Write the file to the data directory (instead of temp storage)
+    const fileName = new Date().getTime() + '.jpeg';
+    await Filesystem.writeFile({
+      path: fileName,
+      data: base64Data.data,
+      directory: FilesystemDirectory.Data
+    });
+
+    // Get the new, complete filepath
+    const fileUri = await Filesystem.getUri({
+      directory: FilesystemDirectory.Data,
+      path: fileName
+    });
+
+    return {
+      filepath: fileUri.uri,
+      webviewPath: Capacitor.convertFileSrc(fileUri.uri),
+      // Unused - Display photos using webviewPath instead.
+      base64: ""
+    };
   }
 }
