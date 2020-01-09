@@ -105,7 +105,7 @@ export class PhotoService {
     }
     else {
       // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(cameraPhoto.webPath);
+      const response = await fetch(cameraPhoto.webPath!);
       const blob = await response.blob();
 
       return await this.convertBlobToBase64(blob) as string;  
@@ -113,7 +113,7 @@ export class PhotoService {
   }
 
   // Retrieve the photo metadata based on the platform the app is running on
-  private async getPhotoFile(cameraPhoto, fileName) {
+  private async getPhotoFile(cameraPhoto: CameraPhoto, fileName: string) {
     if (this.platform.is('hybrid')) {
       // Get the new, complete filepath of the photo saved on filesystem
       const fileUri = await Filesystem.getUri({
@@ -157,7 +157,7 @@ export class PhotoService {
     });
   }
 
-  convertBlobToBase64 = blob => new Promise((resolve, reject) => {
+  convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
     const reader = new FileReader;
     reader.onerror = reject;
     reader.onload = () => {
@@ -167,7 +167,7 @@ export class PhotoService {
   });
 }
 
-class Photo {
+interface Photo {
   filepath: string;
   webviewPath: string;
   base64?: string;
