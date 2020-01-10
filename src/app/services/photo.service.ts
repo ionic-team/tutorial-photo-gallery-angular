@@ -113,7 +113,7 @@ export class PhotoService {
   }
 
   // Retrieve the photo metadata based on the platform the app is running on
-  private async getPhotoFile(cameraPhoto: CameraPhoto, fileName: string) {
+  private async getPhotoFile(cameraPhoto: CameraPhoto, fileName: string): Promise<Photo> {
     if (this.platform.is('hybrid')) {
       // Get the new, complete filepath of the photo saved on filesystem
       const fileUri = await Filesystem.getUri({
