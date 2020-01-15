@@ -16,7 +16,7 @@ export class PhotoService {
     this.platform = platform;
    }
 
-  async loadSaved() {
+  public async loadSaved() {
     // Retrieve cached photo array data
     const photos = await Storage.get({ key: this.PHOTO_STORAGE });
     this.photos = JSON.parse(photos.value) || [];

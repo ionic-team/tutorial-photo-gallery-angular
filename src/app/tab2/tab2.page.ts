@@ -15,7 +15,7 @@ export class Tab2Page {
     this.photoService.loadSaved();
   }
 
-  async showActionSheet(photo, position) {
+  public async showActionSheet(photo, position) {
     const actionSheet = await this.actionSheetController.create({
       header: 'Photos',
       buttons: [{
