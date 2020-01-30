@@ -12,16 +12,13 @@ const { SplashScreen } = Plugins;
 })
 export class AppComponent {
   constructor(
-    private platform: Platform,
-    private statusBar: StatusBar
+    private platform: Platform
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      
+    this.platform.ready().then(() => {      
       SplashScreen.hide();
     });
   }
