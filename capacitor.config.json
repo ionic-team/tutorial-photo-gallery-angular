@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.pg.ng.cap",
-  "appName": "Photo Gallery Ng Cap",
+  "appId": "io.ionic.demo.pg.cap.ng",
+  "appName": "Photo Gallery Cap Ng",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
