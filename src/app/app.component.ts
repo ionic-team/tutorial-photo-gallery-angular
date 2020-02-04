@@ -17,7 +17,13 @@ export class AppComponent {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {      
+    this.platform.ready().then(() => {   
+      /* To make sure we provide the fastest app loading experience 
+         for our users, you must hide the splash screen automatically 
+         when your app is ready to be used
+         
+         https://capacitor.ionicframework.com/docs/apis/splash-screen#hiding-the-splash-screen
+      */
       SplashScreen.hide();
     });
   }
