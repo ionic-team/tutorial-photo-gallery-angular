@@ -22,7 +22,7 @@
     "@capacitor/android": "^1.4.0",
     "@capacitor/core": "^1.4.0",
     "@capacitor/ios": "^1.4.0",
-    "@ionic/angular": "^5.0.0-rc.2",
+    "@ionic/angular": "^5.0.0",
     "@ionic/pwa-elements": "^1.4.1",
     "core-js": "^3.6.4",
     "rxjs": "^6.5.4",
