@@ -82,14 +82,28 @@ export class PhotoService {
 
     // Write the file to the data directory
     const fileName = new Date().getTime() + '.jpeg';
-    await Filesystem.writeFile({
+    const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
       directory: FilesystemDirectory.Data
     });
 
-    // Get platform-specific photo filepaths
-    return await this.getPhotoFile(cameraPhoto, fileName);
+    if (this.platform.is('hybrid')) {
+      // Display the new image by rewriting the 'file://' path to HTTP
+      // Details: https://ionicframework.com/docs/building/webview#file-protocol
+      return {
+        filepath: savedFile.uri,
+        webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+      };
+    }
+    else {
+      // Use webPath to display the new image instead of base64 since it's 
+      // already loaded into memory
+      return {
+        filepath: fileName,
+        webviewPath: cameraPhoto.webPath
+      };
+    }
   }
 
   // Read camera photo into base64 format based on the platform the app is running on
@@ -109,32 +123,6 @@ export class PhotoService {
       const blob = await response.blob();
 
       return await this.convertBlobToBase64(blob) as string;  
-    }
-  }
-
-  // Retrieve the photo metadata based on the platform the app is running on
-  private async getPhotoFile(cameraPhoto: CameraPhoto, fileName: string): Promise<Photo> {
-    if (this.platform.is('hybrid')) {
-      // Get the new, complete filepath of the photo saved on filesystem
-      const fileUri = await Filesystem.getUri({
-        directory: FilesystemDirectory.Data,
-        path: fileName
-      });
-
-      // Display the new image by rewriting the 'file://' path to HTTP
-      // Details: https://ionicframework.com/docs/building/webview#file-protocol
-      return {
-        filepath: fileUri.uri,
-        webviewPath: Capacitor.convertFileSrc(fileUri.uri),
-      };
-    }
-    else {
-      // Use webPath to display the new image instead of base64 since it's 
-      // already loaded into memory
-      return {
-        filepath: fileName,
-        webviewPath: cameraPhoto.webPath
-      };
     }
   }
 
