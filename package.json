@@ -1,8 +1,8 @@
 {
   "name": "photo-gallery-ng-capacitor",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "homepage": "https://ionicframework.com/docs/angular/your-first-app",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -56,5 +56,5 @@
     "tslint": "^6.0.0",
     "typescript": "~3.7.5"
   },
-  "description": "An Ionic project"
+  "description": "Build a photo gallery app that runs on iOS, Android, and the web - with just one codebase"
 }
