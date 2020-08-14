@@ -32,7 +32,7 @@ export class PhotoService {
         });
       
         // Web platform only: Save the photo into the base64 field
-        photo.base64 = `data:image/jpeg;base64,${readFile.data}`;
+        photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
     }
   }
@@ -62,16 +62,7 @@ export class PhotoService {
     // Cache all photo data for future retrieval
     Storage.set({
       key: this.PHOTO_STORAGE,
-      value: this.platform.is('hybrid')
-              ? JSON.stringify(this.photos)  
-              : JSON.stringify(this.photos.map(p => {
-                // Don't save the base64 representation of the photo data, 
-                // since it's already saved on the Filesystem
-                const photoCopy = { ...p };
-                delete photoCopy.base64;
-
-                return photoCopy;
-                }))
+      value: JSON.stringify(this.photos)
     });
   }
 
@@ -158,5 +149,4 @@ export class PhotoService {
 interface Photo {
   filepath: string;
   webviewPath: string;
-  base64?: string;
 }
