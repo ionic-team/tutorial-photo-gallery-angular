@@ -31,7 +31,7 @@ export class PhotoService {
             directory: FilesystemDirectory.Data
         });
       
-        // Web platform only: Save the photo into the base64 field
+        // Web platform only: Load the photo as base64 data
         photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
     }
