@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Photo Gallery Ng Cap</string>
-    <string name="title_activity_main">Photo Gallery Ng Cap</string>
-    <string name="package_name">io.ionic.pg.ng.cap</string>
-    <string name="custom_url_scheme">io.ionic.pg.ng.cap</string>
+    <string name="app_name">Photo Gallery Cap Ng</string>
+    <string name="title_activity_main">Photo Gallery Cap Ng</string>
+    <string name="package_name">io.ionic.demo.pg.cap.ng</string>
+    <string name="custom_url_scheme">io.ionic.demo.pg.cap.ng</string>
 </resources>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { Photo, PhotoService } from '../services/photo.service';
+import { UserPhoto, PhotoService } from '../services/photo.service';
 
 @Component({
   selector: 'app-tab2',
@@ -15,7 +15,7 @@ export class Tab2Page {
     await this.photoService.loadSaved();
   }
 
-  public async showActionSheet(photo: Photo, position: number) {
+  public async showActionSheet(photo: UserPhoto, position: number) {
     const actionSheet = await this.actionSheetController.create({
       header: 'Photos',
       buttons: [{
