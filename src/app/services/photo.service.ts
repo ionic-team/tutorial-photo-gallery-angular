@@ -67,9 +67,9 @@ export class PhotoService {
   }
 
   // Save picture to file on device
-  private async savePicture(cameraPhoto: Photo) {
+  private async savePicture(photo: Photo) {
     // Convert photo to base64 format, required by Filesystem API to save
-    const base64Data = await this.readAsBase64(cameraPhoto);
+    const base64Data = await this.readAsBase64(photo);
 
     // Write the file to the data directory
     const fileName = new Date().getTime() + '.jpeg';
@@ -91,24 +91,24 @@ export class PhotoService {
       // already loaded into memory
       return {
         filepath: fileName,
-        webviewPath: cameraPhoto.webPath,
+        webviewPath: photo.webPath,
       };
     }
   }
 
   // Read camera photo into base64 format based on the platform the app is running on
-  private async readAsBase64(cameraPhoto: Photo) {
+  private async readAsBase64(photo: Photo) {
     // "hybrid" will detect Cordova or Capacitor
     if (this.platform.is('hybrid')) {
       // Read the file into base64 format
       const file = await Filesystem.readFile({
-        path: cameraPhoto.path,
+        path: photo.path,
       });
 
       return file.data;
     } else {
       // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(cameraPhoto.webPath!);
+      const response = await fetch(photo.webPath!);
       const blob = await response.blob();
 
       return (await this.convertBlobToBase64(blob)) as string;
