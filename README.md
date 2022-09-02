@@ -17,11 +17,11 @@ After the user navigates to Tab 2 (Photos), they can tap/click on the camera but
 * Native runtime: [Capacitor](https://capacitor.ionicframework.com)
   * Taking photos: [Camera API](https://capacitor.ionicframework.com/docs/apis/camera)
   * Writing photo to the filesystem: [Filesystem API](https://capacitor.ionicframework.com/docs/apis/filesystem)
-  * Storing photo gallery metadata: [Storage API](https://capacitor.ionicframework.com/docs/apis/storage)
+  * Storing photo gallery metadata: [Preferences API](https://capacitor.ionicframework.com/docs/apis/preferences)
 
 ## Project Structure
 * Tab2 (Photos) (`src/app/tab2/`): Photo Gallery UI and basic logic.
-* PhotoService (`src/app/services/photo.service.ts`): Logic encapsulating Capacitor APIs, including Camera, Filesystem, and Storage.
+* PhotoService (`src/app/services/photo.service.ts`): Logic encapsulating Capacitor APIs, including Camera, Filesystem, and Preferences.
 
 ## How to Run
 
