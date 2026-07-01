@@ -1,5 +1,6 @@
+import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { provideIonicAngular } from '@ionic/angular';
 
 import { PhotoService } from './photo.service';
 
@@ -8,7 +9,7 @@ describe('PhotoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule.forRoot()],
+      providers: [provideZonelessChangeDetection(), provideIonicAngular()],
     });
     service = TestBed.inject(PhotoService);
   });

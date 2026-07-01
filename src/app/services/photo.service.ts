@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import type { Photo } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
@@ -10,15 +10,11 @@ import { Capacitor } from '@capacitor/core';
   providedIn: 'root',
 })
 export class PhotoService {
-  public photos: UserPhoto[] = [];
+  public photos = signal<UserPhoto[]>([]);
 
   private PHOTO_STORAGE: string = 'photos';
 
-  private platform: Platform;
-
-  constructor(platform: Platform) {
-    this.platform = platform;
-  }
+  private platform = inject(Platform);
 
   /* Use the device camera to take a photo:
   // https://capacitor.ionicframework.com/docs/apis/camera
@@ -39,13 +35,13 @@ export class PhotoService {
 
     const savedImageFile = await this.savePicture(capturedPhoto);
 
-    // Add new photo to Photos array
-    this.photos.unshift(savedImageFile);
+    // Add new photo to the front of the Photos signal
+    this.photos.update((photos) => [savedImageFile, ...photos]);
 
     // Cache all photo data for future retrieval
     Preferences.set({
       key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
+      value: JSON.stringify(this.photos()),
     });
   }
 
@@ -109,12 +105,12 @@ export class PhotoService {
   public async loadSaved() {
     // Retrieve cached photo array data
     const { value: photoList } = await Preferences.get({ key: this.PHOTO_STORAGE });
-    this.photos = (photoList ? JSON.parse(photoList) : []) as UserPhoto[];
+    const photos = (photoList ? JSON.parse(photoList) : []) as UserPhoto[];
 
     // If running on the web...
     if (!this.platform.is('hybrid')) {
       // Display the photo by reading into base64 format
-      for (let photo of this.photos) {
+      for (const photo of photos) {
         // Read each saved photo's data from the Filesystem
         const readFile = await Filesystem.readFile({
           path: photo.filepath,
@@ -125,17 +121,19 @@ export class PhotoService {
         photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
     }
+
+    this.photos.set(photos);
   }
 
   // Delete picture by removing it from reference data and the filesystem
   public async deletePhoto(photo: UserPhoto, position: number) {
-    // Remove this photo from the Photos reference data array
-    this.photos.splice(position, 1);
+    // Remove this photo from the Photos signal
+    this.photos.update((photos) => photos.filter((_, index) => index !== position));
 
-    // Update photos array cache by overwriting the existing photo array
+    // Update the cached photos by overwriting the stored value
     Preferences.set({
       key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
+      value: JSON.stringify(this.photos()),
     });
 
     // delete photo file from filesystem
