@@ -15,7 +15,9 @@
     <ion-row>
       @for (photo of photoService.photos(); track photo.filepath; let position = $index) {
         <ion-col size="6">
-          <ion-img [src]="photo.webviewPath" (click)="showActionSheet(photo, position)"></ion-img>
+          <button (click)="showActionSheet(photo, position)">
+            <img [src]="photo.webviewPath" [attr.alt]="'Photo ' + (position + 1)" loading="lazy"/>
+          </button>
         </ion-col>
       }
     </ion-row>
