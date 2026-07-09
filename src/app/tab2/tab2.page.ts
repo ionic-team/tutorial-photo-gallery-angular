@@ -1,16 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonImg,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  ActionSheetController,
+} from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import { camera, trash, close } from 'ionicons/icons';
 import type { UserPhoto } from '../services/photo.service';
 import { PhotoService } from '../services/photo.service';
-import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonImg,
+    IonFab,
+    IonFabButton,
+    IonIcon,
+  ],
 })
 export class Tab2Page implements OnInit {
-  constructor(public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
+  public photoService = inject(PhotoService);
+  private actionSheetController = inject(ActionSheetController);
+
+  constructor() {
+    addIcons({ camera, trash, close });
+  }
 
   async ngOnInit() {
     await this.photoService.loadSaved();
