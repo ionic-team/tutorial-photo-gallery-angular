@@ -59,11 +59,7 @@ export class PhotoService {
 
       base64Data = file.data;
     } else {
-      // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(photo.webPath!);
-      const blob = await response.blob();
-
-      base64Data = (await this.convertBlobToBase64(blob)) as string;
+      base64Data = await this.base64FromPath(photo.webPath!);
     }
 
     // Write the file to the data directory
@@ -91,12 +87,18 @@ export class PhotoService {
     }
   }
 
-  private convertBlobToBase64(blob: Blob) {
+  private async base64FromPath(path: string): Promise<string> {
+    const response = await fetch(path);
+    const blob = await response.blob();
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onerror = reject;
       reader.onload = () => {
-        resolve(reader.result);
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        } else {
+          reject('method did not return a string');
+        }
       };
       reader.readAsDataURL(blob);
     });
