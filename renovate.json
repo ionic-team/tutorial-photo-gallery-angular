@@ -9,6 +9,7 @@
   "schedule": ["* 6-10 * * 1"],
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
+  "ignorePaths": ["android/**", "ios/**"],
   "packageRules": [
     {
       "matchPackageNames": ["@ionic/**"],
