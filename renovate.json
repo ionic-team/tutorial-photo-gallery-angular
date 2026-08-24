@@ -1,6 +1,46 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "timezone": "America/New_York",
+  "minimumReleaseAge": "3 days",
+  "schedule": ["* 6-10 * * 1"],
+  "semanticCommits": "enabled",
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "matchPackageNames": ["@ionic/**"],
+      "minimumReleaseAge": "0 days",
+      "groupName": "ionic"
+    },
+    {
+      "matchPackageNames": [
+        "@angular/**",
+        "angular-eslint",
+        "typescript",
+        "rxjs",
+        "tslib"
+      ],
+      "groupName": "angular",
+      "schedule": ["* 6-10 1 * *"]
+    },
+    {
+      "matchPackageNames": ["@capacitor/**"],
+      "groupName": "capacitor"
+    },
+    {
+      "matchPackageNames": [
+        "karma*",
+        "jasmine*",
+        "@types/jasmine"
+      ],
+      "groupName": "testing"
+    },
+    {
+      "matchPackageNames": ["eslint", "@eslint/js", "typescript-eslint"],
+      "groupName": "dev-tools"
+    }
   ]
 }
