@@ -29,6 +29,11 @@
       "schedule": ["* 6-10 1 * *"]
     },
     {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7.0.0",
+      "description": "Angular 22 requires typescript >=6.0 <6.1. Raise this when Angular widens its typescript range."
+    },
+    {
       "matchPackageNames": ["@capacitor/**"],
       "groupName": "capacitor"
     },
