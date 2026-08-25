@@ -4,6 +4,7 @@
     "config:recommended",
     ":semanticCommitTypeAll(chore)"
   ],
+  "description": "Renovate may only open or update PRs on Mondays, 6-10am ET.",
   "timezone": "America/New_York",
   "minimumReleaseAge": "3 days",
   "schedule": ["* 6-10 * * 1"],
@@ -17,6 +18,7 @@
       "groupName": "ionic"
     },
     {
+      "description": "Angular majors land on a fixed cadence, so this group is restricted to the 1st of each month, 6-10am ET.",
       "matchPackageNames": [
         "@angular/**",
         "angular-eslint",
