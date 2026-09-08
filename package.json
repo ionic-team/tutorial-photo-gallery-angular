@@ -32,7 +32,7 @@
     "@capacitor/ios": "^8.5.0",
     "@capacitor/keyboard": "^8.0.5",
     "@capacitor/preferences": "^8.0.1",
-    "@capacitor/splash-screen": "8.0.1",
+    "@capacitor/splash-screen": "8.0.2",
     "@capacitor/status-bar": "^8.0.3",
     "@ionic/angular": "^9.0.0",
     "@ionic/pwa-elements": "^3.4.0",
