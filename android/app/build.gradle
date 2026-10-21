@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "io.ionic.demo.pg.cap.ng"
+    namespace = "io.ionic.tutorial.photogallery.angular"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "io.ionic.demo.pg.cap.ng"
+        applicationId "io.ionic.tutorial.photogallery.angular"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,5 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
@@ -15,4 +16,6 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
-}).catch((err) => console.error(err));
+})
+  .then(() => SplashScreen.hide())
+  .catch((err) => console.error(err));

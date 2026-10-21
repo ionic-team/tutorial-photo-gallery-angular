@@ -23,6 +23,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/manifest.webmanifest",
               {
                 "glob": "**/*",
                 "input": "src/assets",
