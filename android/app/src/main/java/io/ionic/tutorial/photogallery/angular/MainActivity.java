@@ -1,4 +1,4 @@
-package io.ionic.demo.pg.cap.ng;
+package io.ionic.tutorial.photogallery.angular;
 
 import com.getcapacitor.BridgeActivity;
 

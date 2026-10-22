@@ -1,5 +1,5 @@
 {
-  "name": "Photo Gallery NG Capacitor",
+  "name": "tutorial-photo-gallery-angular",
   "integrations": {
     "capacitor": {}
   },
