@@ -34,3 +34,9 @@ npm-debug.log*
 
 # Stray Gradle cache (native build artifacts live under android/)
 /.gradle
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
