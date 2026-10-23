@@ -14,7 +14,7 @@
     "test": "ng test",
     "lint": "npm run eslint && npm run prettier -- --check",
     "lint:fix": "npm run eslint -- --fix && npm run prettier -- --write",
-    "eslint": "ng lint",
+    "eslint": "ng lint --max-warnings 0",
     "prettier": "prettier \"**/*.{ts,html}\""
   },
   "private": true,

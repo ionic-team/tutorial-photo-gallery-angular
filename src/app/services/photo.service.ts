@@ -25,7 +25,7 @@ export class PhotoService {
   // Store a reference to all photo filepaths using Storage API:
   // https://capacitor.ionicframework.com/docs/apis/storage
   */
-  public async addNewToGallery() {
+  public async addNewToGallery(): Promise<void> {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri, // file-based data; provides best performance
@@ -104,7 +104,7 @@ export class PhotoService {
     });
   }
 
-  public async loadSaved() {
+  public async loadSaved(): Promise<void> {
     // Retrieve cached photo array data
     const { value: photoList } = await Preferences.get({ key: this.PHOTO_STORAGE });
     const photos = (photoList ? JSON.parse(photoList) : []) as UserPhoto[];
@@ -128,7 +128,7 @@ export class PhotoService {
   }
 
   // Delete picture by removing it from reference data and the filesystem
-  public async deletePhoto(photo: UserPhoto, position: number) {
+  public async deletePhoto(photo: UserPhoto, position: number): Promise<void> {
     // Remove this photo from the Photos signal
     this.photos.update((photos) => photos.filter((_, index) => index !== position));
 
