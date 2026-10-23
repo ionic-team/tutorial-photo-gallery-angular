@@ -5,7 +5,6 @@ import { TestBed } from '@angular/core/testing';
 import { ExploreContainerComponent } from './explore-container.component';
 
 describe('ExploreContainerComponent', () => {
-  let component: ExploreContainerComponent;
   let fixture: ComponentFixture<ExploreContainerComponent>;
 
   beforeEach(async () => {
@@ -15,11 +14,20 @@ describe('ExploreContainerComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExploreContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('shows the page name', () => {
+    fixture.componentRef.setInput('name', 'Tab 1 page');
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('strong').textContent).toBe('Tab 1 page');
+  });
+
+  it('links to the Ionic UI components docs', () => {
+    fixture.detectChanges();
+
+    const link: HTMLAnchorElement = fixture.nativeElement.querySelector('a');
+    expect(link.href).toBe('https://ionicframework.com/docs/components');
+    expect(link.target).toBe('_blank');
   });
 });
