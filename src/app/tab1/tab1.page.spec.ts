@@ -1,5 +1,6 @@
 import { provideZonelessChangeDetection } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideIonicAngular } from '@ionic/angular';
 
 import { Tab1Page } from './tab1.page';
