@@ -16,7 +16,8 @@
     "eslint": "ng lint --max-warnings 0",
     "prettier": "prettier \"**/*.{ts,html}\"",
     "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "ng test",
+    "test:unit": "ng test --no-watch",
+    "test:unit:watch": "ng test --watch",
     "test:e2e": "playwright test"
   },
   "private": true,

@@ -47,6 +47,6 @@ The code is checked with [ESLint](https://eslint.org/) and formatted with [Prett
 
 ## Testing
 
-- Run the unit tests ([Vitest](https://vitest.dev/)): `npm run test:unit`
+- Run the unit tests ([Vitest](https://vitest.dev/)): `npm run test:unit` (or `npm run test:unit:watch` to rerun on changes)
 - Run the end-to-end tests ([Playwright](https://playwright.dev/)): `npm run test:e2e`. The first time, install the browser with `npx playwright install chromium`.
 - Run both: `npm test`
