@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -14,6 +15,7 @@ import {
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { camera, trash, close } from 'ionicons/icons';
+
 import type { UserPhoto } from '../services/photo.service';
 import { PhotoService } from '../services/photo.service';
 

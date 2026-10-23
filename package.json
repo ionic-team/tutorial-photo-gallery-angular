@@ -12,7 +12,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "npm run eslint && npm run prettier -- --check",
+    "lint:fix": "npm run eslint -- --fix && npm run prettier -- --write",
+    "eslint": "ng lint",
+    "prettier": "prettier \"**/*.{ts,html}\""
   },
   "private": true,
   "dependencies": {
@@ -46,11 +49,12 @@
     "@angular/compiler-cli": "22.2.0",
     "@angular/language-service": "22.2.0",
     "@capacitor/cli": "^8.5.0",
-    "@eslint/js": "^10.0.0",
     "@ionic/angular-toolkit": "^13.0.0",
+    "@ionic/eslint-config": "^0.5.0",
+    "@ionic/prettier-config": "^4.0.0",
     "@types/jasmine": "~6.0.0",
-    "angular-eslint": "22.5.0",
-    "eslint": "^10.0.0",
+    "angular-eslint": "^22.6.0",
+    "eslint": "^10.13.0",
     "jasmine-core": "~6.3.0",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "~6.4.0",
@@ -58,7 +62,9 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.3.0",
+    "prettier": "^3.9.10",
     "typescript": "~6.0.0",
-    "typescript-eslint": "^8.18.0"
-  }
+    "typescript-eslint": "^8.72.0"
+  },
+  "prettier": "@ionic/prettier-config"
 }
