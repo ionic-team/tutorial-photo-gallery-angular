@@ -33,15 +33,15 @@ export class Tab2Page implements OnInit {
     addIcons({ camera, trash, close });
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     await this.photoService.loadSaved();
   }
 
-  addPhotoToGallery() {
+  addPhotoToGallery(): void {
     this.photoService.addNewToGallery();
   }
 
-  public async showActionSheet(photo: UserPhoto, position: number) {
+  public async showActionSheet(photo: UserPhoto, position: number): Promise<void> {
     const actionSheet = await this.actionSheetController.create({
       header: 'Photos',
       buttons: [
