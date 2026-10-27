@@ -1,14 +1,20 @@
 // @ts-check
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
+const ionic = require('@ionic/eslint-config/recommended');
 const angular = require('angular-eslint');
+const { defineConfig } = require('eslint/config');
 
-module.exports = tseslint.config(
+module.exports = defineConfig([
+  {
+    ignores: ['www/**', 'dist/**', 'coverage/**', '.angular/**', 'android/**', 'ios/**'],
+  },
+  ionic,
   {
     files: ['**/*.ts'],
-    extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...angular.configs.tsRecommended],
+    extends: [angular.configs.tsRecommended],
     processor: angular.processInlineTemplates,
     rules: {
+      // Ionic's base level; `recommended` makes it an error, which is meant for libraries.
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
       '@angular-eslint/directive-selector': [
         'error',
         {
@@ -35,7 +41,7 @@ module.exports = tseslint.config(
   },
   {
     files: ['**/*.html'],
-    extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
+    extends: [angular.configs.templateRecommended, angular.configs.templateAccessibility],
     rules: {},
-  }
-);
+  },
+]);

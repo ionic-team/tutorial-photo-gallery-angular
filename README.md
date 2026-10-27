@@ -37,3 +37,10 @@ After the user navigates to Tab 2 (Photos), they can tap/click on the camera but
 4) Install the project dependencies: `npm install`
 5) Run the app in your browser: `ionic serve`
 6) Run the app on iOS or Android: Follow the [Capacitor Workflow](https://capacitorjs.com/docs/basics/workflow) guide for instructions on building and running the app on a native platform.
+
+## Linting
+
+The code is checked with [ESLint](https://eslint.org/) and formatted with [Prettier](https://prettier.io/), using Ionic's shared configs. Pull requests must pass `npm run lint`.
+
+- Check for issues: `npm run lint`
+- Fix what can be fixed automatically: `npm run lint:fix`

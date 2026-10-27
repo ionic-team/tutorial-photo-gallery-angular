@@ -13,7 +13,7 @@
   "gitIgnoredAuthors": ["hi@ionicframework.com"],
   "packageRules": [
     {
-      "matchPackageNames": ["@ionic/**"],
+      "matchPackageNames": ["@ionic/**", "!@ionic/eslint-config", "!@ionic/prettier-config"],
       "minimumReleaseAge": "0 days",
       "groupName": "ionic"
     },
@@ -52,7 +52,14 @@
       "description": "@types/jasmine has no 7.x release. Raise this when it publishes one."
     },
     {
-      "matchPackageNames": ["eslint", "@eslint/**", "typescript-eslint"],
+      "matchPackageNames": [
+        "eslint",
+        "@eslint/**",
+        "@ionic/eslint-config",
+        "@ionic/prettier-config",
+        "prettier",
+        "typescript-eslint"
+      ],
       "groupName": "dev-tools"
     }
   ]

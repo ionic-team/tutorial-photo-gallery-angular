@@ -4,8 +4,8 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
-import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
 // Call the element loader before the bootstrapApplication call
 defineCustomElements(window);

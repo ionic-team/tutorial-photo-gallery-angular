@@ -1,10 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import type { Photo } from '@capacitor/camera';
+import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { Platform } from '@ionic/angular';
-import { Capacitor } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root',
