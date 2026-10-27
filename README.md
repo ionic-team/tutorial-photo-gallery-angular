@@ -40,7 +40,13 @@ After the user navigates to Tab 2 (Photos), they can tap/click on the camera but
 
 ## Linting
 
-The code is checked with [ESLint](https://eslint.org/) and formatted with [Prettier](https://prettier.io/), using Ionic's shared configs. Pull requests must pass `npm run lint`.
+The code is checked with [ESLint](https://eslint.org/) and formatted with [Prettier](https://prettier.io/), using Ionic's shared configs. `npm run lint` also type-checks the Playwright tests, which ESLint and Playwright don't do on their own. Pull requests must pass `npm run lint`.
 
 - Check for issues: `npm run lint`
 - Fix what can be fixed automatically: `npm run lint:fix`
+
+## Testing
+
+- Run the unit tests ([Vitest](https://vitest.dev/)): `npm run test:unit` (or `npm run test:unit:watch` to rerun on changes)
+- Run the end-to-end tests ([Playwright](https://playwright.dev/)): `npm run test:e2e`. The first time, install the browser with `npx playwright install chromium`.
+- Run both: `npm test`
