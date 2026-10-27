@@ -16,15 +16,6 @@ export class PhotoService {
 
   private platform = inject(Platform);
 
-  /* Use the device camera to take a photo:
-  // https://capacitor.ionicframework.com/docs/apis/camera
-
-  // Store the photo data into permanent file storage:
-  // https://capacitor.ionicframework.com/docs/apis/filesystem
-
-  // Store a reference to all photo filepaths using Storage API:
-  // https://capacitor.ionicframework.com/docs/apis/storage
-  */
   public async addNewToGallery(): Promise<void> {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
@@ -35,19 +26,15 @@ export class PhotoService {
 
     const savedImageFile = await this.savePicture(capturedPhoto);
 
-    // Add new photo to the front of the Photos signal
     this.photos.update((photos) => [savedImageFile, ...photos]);
 
-    // Cache all photo data for future retrieval
     Preferences.set({
       key: this.PHOTO_STORAGE,
       value: JSON.stringify(this.photos()),
     });
   }
 
-  // Save picture to file on device
   private async savePicture(photo: Photo) {
-    // Convert photo to base64 format, required by Filesystem API to save
     let base64Data: string | Blob;
 
     // "hybrid" will detect Cordova or Capacitor
@@ -72,7 +59,6 @@ export class PhotoService {
 
     if (this.platform.is('hybrid')) {
       // Display the new image by rewriting the 'file://' path to HTTP
-      // Details: https://ionicframework.com/docs/building/webview#file-protocol
       return {
         filepath: savedFile.uri,
         webviewPath: Capacitor.convertFileSrc(savedFile.uri),
@@ -111,9 +97,7 @@ export class PhotoService {
 
     // If running on the web...
     if (!this.platform.is('hybrid')) {
-      // Display the photo by reading into base64 format
       for (const photo of photos) {
-        // Read each saved photo's data from the Filesystem
         const readFile = await Filesystem.readFile({
           path: photo.filepath,
           directory: Directory.Data,
@@ -127,18 +111,17 @@ export class PhotoService {
     this.photos.set(photos);
   }
 
-  // Delete picture by removing it from reference data and the filesystem
   public async deletePhoto(photo: UserPhoto, position: number): Promise<void> {
-    // Remove this photo from the Photos signal
+    // Remove this photo from the photos signal
     this.photos.update((photos) => photos.filter((_, index) => index !== position));
 
-    // Update the cached photos by overwriting the stored value
+    // Update photos array cache by overwriting the existing photo array
     Preferences.set({
       key: this.PHOTO_STORAGE,
       value: JSON.stringify(this.photos()),
     });
 
-    // delete photo file from filesystem
+    // Delete photo file from filesystem
     const filename = photo.filepath.slice(photo.filepath.lastIndexOf('/') + 1);
 
     await Filesystem.deleteFile({
