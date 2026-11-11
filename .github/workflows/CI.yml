@@ -6,6 +6,11 @@ name: Install Dependencies, Lint, Build and Test
 
 on: [pull_request]
 
+# Cancel a pull request's in-progress run when a newer commit is pushed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     name: Lint
@@ -15,34 +20,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    - name: Use Node.js 24
+    - name: Set up Node.js
       uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
-        node-version: 26
+        node-version-file: .nvmrc
     - name: Install Dependencies
       run: npm ci
     - name: Lint
       run: npm run lint
 
   test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # When node version is updated, update the version in the GitHub repository settings (admin access required):
-        # Branches -> Edit `main` -> Protect matching branches ->
-        # Require status checks to pass before merging ->
-        # Search for the new version -> Add them to the list ->
-        # Remove the old version from the list -> Save changes
-        node_version: [24]
         os: [windows-latest, macOS-latest]
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    - name: Use Node.js ${{ matrix.node_version }}
+    - name: Set up Node.js
       uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
-        node-version: ${{ matrix.node_version }}
+        node-version-file: .nvmrc
     - name: Install Dependencies
       run: npm ci
     - name: Build
@@ -56,10 +55,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    - name: Use Node.js 24
+    - name: Set up Node.js
       uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
-        node-version: 26
+        node-version-file: .nvmrc
     - name: Install Dependencies
       run: npm ci
     - name: Install Playwright Browsers
