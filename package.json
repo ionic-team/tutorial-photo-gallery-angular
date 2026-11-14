@@ -41,7 +41,7 @@
     "@capacitor/preferences": "8.0.1",
     "@capacitor/splash-screen": "8.0.2",
     "@capacitor/status-bar": "8.0.4",
-    "@ionic/angular": "^9.0.0",
+    "@ionic/angular": "9.0.12-dev.11794527713.1ebd1ea1",
     "@ionic/pwa-elements": "^3.4.0",
     "ionicons": "^8.1.0",
     "rxjs": "~7.8.0",
